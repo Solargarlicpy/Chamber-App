@@ -2,6 +2,9 @@
   "name": "chamber-app",
   "version": "1.0.0",
   "main": "index.js",
+  "engines": {
+    "node": ">=20.0.0"
+    }
   "scripts": {
     "build": "npm install --prefix Backend && npm install --prefix Frontend && npm run build --prefix Frontend",
     "start": "npm start --prefix Backend",
