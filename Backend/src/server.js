@@ -10,7 +10,11 @@ dotenv.config();
 const app = express();
 const __dirname = path.resolve();
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
+
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // API endpoints
 app.use("/api/auth", authRoutes);
@@ -25,5 +29,4 @@ if(process.env.NODE_ENV === "production") {
     });
 }
 
-app.listen(PORT, () => console.log
-("Server is running on port: " + PORT));
+app.listen(PORT, "0.0.0.0", () => console.log("Server is running on port: " + PORT));
