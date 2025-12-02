@@ -1,28 +1,28 @@
 ﻿
 {
-    "name": "chamber-app",
-    "version": "1.0.0",
-    "main": "index.js",
-    "engines": {
+  "name": "chamber-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "engines": {
     "node": ">=20.0.0"
-},
-    "scripts": {
+  },
+  "scripts": {
     "build": "npm install --prefix Backend && npm install --prefix Frontend && npm run build --prefix Frontend",
     "start": "npm start --prefix Backend",
     "dev": "npm run dev --prefix Backend",
     "dev:frontend": "npm run dev --prefix Frontend",
     "dev:backend": "npm run dev --prefix Backend"
-},
-    "repository": {
+  },
+  "repository": {
     "type": "git",
     "url": "git+https://github.com/Solargarlicpy/Chamber-App.git"
-},
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
-    "bugs": {
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
     "url": "https://github.com/Solargarlicpy/Chamber-App/issues"
-},
-    "homepage": "https://github.com/Solargarlicpy/Chamber-App#readme",
-    "description": ""
+  },
+  "homepage": "https://github.com/Solargarlicpy/Chamber-App#readme",
+  "description": ""
 }
