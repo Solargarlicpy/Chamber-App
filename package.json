@@ -5,7 +5,6 @@
 "engines": {
 "node": ">=20.0.0"
 },
-// Scripts to manage both frontend and backend
 "scripts": {
 "build": "npm install --prefix Backend && npm install --prefix Frontend && npm run build --prefix Frontend",
 "start": "npm start --prefix Backend",
