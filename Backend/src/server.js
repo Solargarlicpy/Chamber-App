@@ -1,20 +1,23 @@
 import express from "express";
 import dotenv from "dotenv";
 import path from "path";
+import cookieParser from "cookie-parser";
 
 import authRoutes from "./routes/auth.route.js";
 import messageRoutes from "./routes/message.route.js";
+import mongoose from "mongoose";
 
 dotenv.config();
 
 const app = express();
 const __dirname = path.resolve();
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.NODE_ENV === "production" ? process.env.PORT : 3000;
 
-// Middleware
+// Middleware configuration for parsing JSON and URL encoded data 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 // API endpoints
 app.use("/api/auth", authRoutes);
@@ -29,4 +32,27 @@ if(process.env.NODE_ENV === "production") {
     });
 }
 
-app.listen(PORT, "0.0.0.0", () => console.log("Server is running on port: " + PORT));
+// MongoDB connection function
+const connectDB = async () => {
+    try {
+        console.log(" Debug - MONGO_URI:", process.env.MONGO_URI);
+        console.log(" Debug - PORT:", process.env.PORT);
+        console.log(" Debug - NODE_ENV:", process.env.NODE_ENV);
+        console.log(" Debug - JWT_SECRET:", process.env.JWT_SECRET ? "***SET***" : "NOT SET");
+        
+        if (!process.env.MONGO_URI) {
+            throw new Error("MONGO_URI is not defined in environment variables");
+        }
+        
+        const conn = await mongoose.connect(process.env.MONGO_URI);
+        console.log(` MONGODB CONNECTED: ${conn.connection.host}`);
+    } catch (error) {
+        console.log(" MONGODB CONNECTION ERROR:", error.message);
+        process.exit(1);
+    }
+};
+
+app.listen(PORT, "0.0.0.0", () => {
+    console.log(` Server running on port: ${PORT}`);
+    connectDB();
+});
