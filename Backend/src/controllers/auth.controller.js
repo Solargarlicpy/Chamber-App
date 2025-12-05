@@ -70,12 +70,16 @@ export const signup = async (req, res) => {
 export const login = async (req, res) => {
     const {email, password} =  req.body;
 
+    if (!email || !password){
+        return  res.status(400).json({message:"All fields required"})
+    }
+
     try {
         const user = await User.findOne({email});
-        if(!user) return res.status(400).json({message:"Invalid email or password"}); // keep ambiguous
+        if(!user) return res.status(400).json({message:"Invalid credentials"}); // keep ambiguous
 
         const isPasswordCorrect = await bcrypt.compare(password, user.password);
-        if(!isPasswordCorrect) return res.status(400).json({message:"Invalid email or password"}); // keep ambiguous
+        if(!isPasswordCorrect) return res.status(400).json({message:"Invalid credentials"}); // keep ambiguous
 
         generateToken(user._id, res);
 
