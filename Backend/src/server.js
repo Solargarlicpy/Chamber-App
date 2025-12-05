@@ -3,16 +3,16 @@ import dotenv from "dotenv";
 import path from "path";
 import cookieParser from "cookie-parser";
 
+
 import authRoutes from "./routes/auth.route.js";
 import messageRoutes from "./routes/message.route.js";
 import mongoose from "mongoose";
-
-dotenv.config();
+import { ENV } from "./lib/env.js";
 
 const app = express();
 const __dirname = path.resolve();
 
-const PORT = process.env.NODE_ENV === "production" ? process.env.PORT : 3000;
+const PORT = ENV.PORT || 3000;
 
 // Middleware configuration for parsing JSON and URL encoded data 
 app.use(express.json());
@@ -24,7 +24,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes); 
 
 // Make ready for deployment
-if(process.env.NODE_ENV === "production") {
+if(ENV.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, "../Frontend/dist")));
 
     app.get("*", (_, res) => {
