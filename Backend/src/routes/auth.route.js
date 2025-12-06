@@ -1,16 +1,13 @@
 import express from "express";
-import { signup } from "../controllers/auth.controller.js";
+import { signup, login, logout } from "../controllers/auth.controller.js";
 
 const router = express.Router();
 
+// note: get not used becuase we dont user data to cache in logout. Best practice to use post 
 router.post("/signup", signup);
 
-router.get("/login", (req, res) => {
-    res.send("Login endpoint");
-});
+router.post("/login", login);
 
-router.get("/logout", (req, res) => {
-    res.send("Logout endpoint");
-});
+router.post("/logout", logout);
 
 export { router as default };
