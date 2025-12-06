@@ -2,7 +2,8 @@ import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import { generateToken } from "../lib/utils.js";
 import { sendWelcomeEmail } from "../emails/emailHandlers.js";
-import "dotenv/config";
+import { ENV } from "../lib/env.js";
+import cloudinary from "../lib/cloudinary.js";
 
 export const signup = async (req, res) => {
     const {fullName, email, password} = req.body
@@ -92,8 +93,32 @@ export const login = async (req, res) => {
         res.status(500).json({message:"Server error"})
     }
 };
-// Logout user
+
 export const logout = (_, res) => {
     res.cookie("jwt", "", { maxAge: 0 });
     res.status(200).json({ message: "Logged out successfully" });
 };    
+
+// endpoint to update user profile picture
+export const updateProfile = async (req, res) => {
+    try {
+        const { profilePic } = req.body;
+        if(!profilePic) return res.status(400).json({ message: "Profile picture is required" });
+        
+        // middleware auth adds user to req object
+        const userId = req.user._id;
+
+        const uploadResponse = await cloudinary.uploader.upload(profilePic)
+        // upload to cloudinary
+        const updatedUser = await User.findByIdAndUpdate(
+            userId, 
+            { profilePic:uploadResponse.secure_url }, 
+            { new:true },
+        );
+        // return updated user data
+        res.status(200).json(updatedUser);
+    } catch (error) {
+        console.log(" UPDATE PROFILE ERROR:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
