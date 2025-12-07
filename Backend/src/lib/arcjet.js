@@ -26,7 +26,7 @@ const aj = arcjet({
       // Tracked by IP address by default, but this can be customized
       // See https://docs.arcjet.com/fingerprints
       //characteristics: ["ip.src"],
-      max: 5, // Refill 5 tokens per interval
+      max: 100, // Refill 100 tokens per interval
       interval: 60, // Refill every 60 seconds
     }),
   ],
