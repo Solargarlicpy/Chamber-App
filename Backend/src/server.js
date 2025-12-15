@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import path from "path";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 
 
 import authRoutes from "./routes/auth.route.js";
@@ -16,8 +17,10 @@ const PORT = ENV.PORT || 3000;
 
 // Middleware configuration for parsing JSON and URL encoded data 
 app.use(express.json());
+app.use(cors({ origin: ENV.CLIENT_URL, credentials: true }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
 
 // API endpoints
 app.use("/api/auth", authRoutes);
